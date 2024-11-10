@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\DeskResource;
 use App\Models\Desk;
 use Illuminate\Http\Request;
+use App\Http\Requests\DeskStoreRequest;
+use Facade\FlareClient\Http\Response;
 
 class DeskConroller extends Controller
 {
@@ -16,7 +18,8 @@ class DeskConroller extends Controller
      */
     public function index()
     {
-       return DeskResource::collection(Desk::with('lists')->get());
+      // return DeskResource::collection(Desk::with('lists')->get());
+      return DeskResource::collection(Desk::all());
     }
 
     /**
@@ -25,9 +28,13 @@ class DeskConroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DeskStoreRequest $request)
     {
-        //
+
+        $created_desk = Desk::create($request->validated());
+
+        return new DeskResource($created_desk);
+
     }
 
     /**
@@ -36,10 +43,15 @@ class DeskConroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return new DeskResource(Desk::with('lists')->findOrFail($id));
-    }
+    // public function show($id)
+    // {
+    //     return new DeskResource(Desk::with('lists')->findOrFail($id));
+    // }
+    // рефакторинг
+     public function show(Desk $desk)
+     {
+         return new DeskResource($desk);
+     }
 
     /**
      * Update the specified resource in storage.
@@ -48,9 +60,11 @@ class DeskConroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DeskStoreRequest $request, Desk $desk)
     {
-        //
+        $desk->update( $request->validated() );
+
+        return new DeskResource($desk);
     }
 
     /**
@@ -59,8 +73,11 @@ class DeskConroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Desk $desk)
     {
-        //
+        $desk->delete();
+
+        return response('',204);
+
     }
 }
