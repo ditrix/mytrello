@@ -1,6 +1,9 @@
-## API на Laravel
+##  Laravel + VueJS. SPA. Analuge Trello
 
-[video](https://www.youtube.com/watch?v=jCZj3SYGCJ8&t=6s).
+[api video](https://www.youtube.com/watch?v=jCZj3SYGCJ8&t=6s).
+
+[Laravel VueJS video](https://www.youtube.com/watch?v=CwKrgUTGLbY&list=PLze7bMjv1CYtP6FSv6L60IpI3rynxAStr).
+
 
 ### install 
 
